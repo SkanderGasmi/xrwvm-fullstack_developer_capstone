@@ -12,6 +12,10 @@ urlpatterns = [
     # path(route='login', view=views.login_user, name='login'),
     path(route='login', view=views.login_user, name='login'),
     path('logout', views.logout_user, name='logout'),
+    path('register', views.registration, name='register'),
+
+
+    
 
 
 
