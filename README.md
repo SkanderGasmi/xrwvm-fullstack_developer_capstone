@@ -1,5 +1,3 @@
-# fullstack_developer_capstone
-
 ````md
 # Best Cars Dealership Review Platform
 
@@ -8,6 +6,7 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-7.0-green)
 ![Node.js](https://img.shields.io/badge/Node.js-20-purple)
 ![Docker](https://img.shields.io/badge/Docker-Containers-lightblue)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-blue)
 ![IBM Cloud](https://img.shields.io/badge/IBM%20Cloud-Code%20Engine-purple)
 
 ---
@@ -15,17 +14,20 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Architecture](#architecture)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Microservices Implementation](#microservices-implementation)
-- [Django Models & Views](#django-models--views)
-- [Car Inventory Management](#car-inventory-management)
-- [Django Proxy Services Implementation](#django-proxy-services-implementation)
+- [Business Problem](#business-problem)
+- [Solution Summary](#solution-summary)
+- [System Architecture](#system-architecture)
+- [Component Architecture](#component-architecture)
+- [Application Features](#application-features)
+- [Technology Stack](#technology-stack)
+- [Microservices Design](#microservices-design)
+- [Frontend (React SPA)](#frontend-react-spa)
+- [Backend (Django)](#backend-django)
+- [Sentiment Analysis Service](#sentiment-analysis-service)
+- [CI/CD Pipeline](#cicd-pipeline)
+- [Containerization & Kubernetes Deployment](#containerization--kubernetes-deployment)
+- [Security Considerations](#security-considerations)
 - [Setup Instructions](#setup-instructions)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Why I Built This](#why-i-built-this)
 - [Future Improvements](#future-improvements)
 - [License](#license)
 
@@ -33,187 +35,291 @@
 
 ## Overview
 
-**Best Cars Dealership Review Platform** is a full-stack web application built for a national car dealership network to enhance customer transparency and trust. The platform allows customers to browse dealerships across the United States, read authentic customer reviews, and submit their own experiences.
+The **Best Cars Dealership Review Platform** is a full-stack, cloud-native web application designed for a national car dealership network operating across the United States.
 
-Built as a capstone project demonstrating enterprise-level development practices, this application showcases a modern **microservices architecture** using **Django, React, MongoDB**, and **cloud-native deployment**.
+The platform enables customers to:
+- Discover dealerships by location
+- Read verified customer reviews
+- Submit structured feedback after a purchase
 
-The solution addresses key business requirements identified through market research by providing a centralized review system that helps customers make informed decisions while giving dealerships valuable feedback for continuous improvement.
+For dealerships and administrators, the system provides:
+- Centralized review management
+- Sentiment-driven insights
+- Scalable infrastructure suitable for enterprise deployment
+
+This project was developed as a **capstone application**, demonstrating professional software engineering practices including microservices architecture, CI/CD automation, containerization, and Kubernetes-based orchestration.
 
 ---
 
-## Architecture
+## Business Problem
 
-### System Architecture Diagram
+Car buyers often rely on fragmented and unverified online reviews when choosing a dealership. This creates:
+- Low trust in review authenticity
+- Limited feedback visibility for dealerships
+- No structured way to analyze customer sentiment
 
-```text
-┌─────────────────────────────────────────────────────────────────────────┐
-│                          User Browser                                   │
-└──────────────────────────────┬──────────────────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    Django Application (Port: 8000)                      │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐                 │
-│  │   Static    │  │     Auth    │  │   Django        │                 │
-│  │   Pages     │  │   System    │  │   Models        │                 │
-│  └─────────────┘  └─────────────┘  └─────────────────┘                 │
-│         │                │                    │                         │
-│         └────────────────┼────────────────────┘                         │
-│                          │                                              │
-│                  ┌───────▼───────┐                                     │
-│                  │   Django      │                                     │
-│                  │  Proxy Views  │                                     │
-│                  └───────┬───────┘                                     │
-│                          │                                              │
-└──────────────────────────┼──────────────────────────────────────────────┘
-                           │
-         ┌─────────────────┼─────────────────┐
-         │                 │                 │
-         ▼                 ▼                 ▼
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│  Node.js/Mongo  │ │   Sentiment     │ │    Django       │
-│    Service      │ │    Analyzer     │ │     Admin       │
-│   (Port: 5000)  │ │   (Port: 5050)  │ │    (Port: 8000) │
-└─────────────────┘ └─────────────────┘ └─────────────────┘
-         │                    │                    │
-         ▼                    ▼                    ▼
-┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│    MongoDB      │ │   NLTK/VADER    │ │    SQLite       │
-│   Database      │ │     Library     │ │    Database     │
-└─────────────────┘ └─────────────────┘ └─────────────────┘
+Dealership networks also struggle with:
+- Managing reviews across multiple locations
+- Extracting actionable insights from textual feedback
+- Scaling systems reliably across regions
+
+---
+
+## Solution Summary
+
+This platform addresses these challenges by providing:
+- A **centralized review system** for all dealerships
+- **Verified user submissions** with structured metadata
+- **AI-powered sentiment analysis** for qualitative insights
+- A **scalable microservices-based architecture**
+- Cloud-agnostic deployment using Docker and Kubernetes
+
+---
+
+## System Architecture
+
+### High-Level Architecture Diagram
+
+> **File:** `docs/architecture.png`
+
+![System Architecture](docs/architecture.png)
+
+**Description:**
+- Users interact with a React Single Page Application (SPA)
+- Django serves as the primary backend and API gateway
+- Django proxy services communicate with external microservices
+- Reviews and dealerships are managed via a Node.js + MongoDB service
+- A dedicated Flask service performs sentiment analysis
+- All services are containerized and orchestrated using Kubernetes
+
+---
+
+## Component Architecture
+
+> **File:** `docs/component-architecture.png`
+
+![Component Architecture](docs/component-architecture.png)
+
+| Component | Technology | Responsibility |
+|--------|------------|----------------|
+| Frontend UI | React + Bootstrap | User interaction and SPA routing |
+| Backend Server | Django 4.2 | Authentication, routing, data orchestration |
+| Dealership Service | Node.js + Express | Dealership & review persistence |
+| Review Database | MongoDB | Reviews and dealership data |
+| Inventory Database | SQLite | Car makes and models |
+| Sentiment Service | Flask + NLTK/VADER | Review sentiment scoring |
+| CI/CD | GitHub Actions | Automated linting and validation |
+| Orchestration | Kubernetes | Deployment, scaling, service discovery |
+
+---
+
+## Application Features
+
+### Anonymous Users
+- Browse dealerships across all U.S. states
+- Filter dealerships by state
+- View dealership details
+- Read customer reviews
+- Access informational pages (About, Contact)
+- Responsive UI for all devices
+
+---
+
+### Registered Users
+- Secure authentication and session management
+- Submit dealership reviews
+- Structured review form including:
+  - Star rating
+  - Purchase verification
+  - Vehicle details (make, model, year)
+  - Purchase date
+  - Textual feedback
+- Automatic sentiment analysis of submitted reviews
+- Personal dashboard of submitted reviews
+
+---
+
+### Administrative Users
+- Django Admin interface
+- Manage car makes and models
+- Moderate and approve reviews
+- User management
+- Review analytics and sentiment summaries
+
+---
+
+## Technology Stack
+
+### Frontend
+- React 18
+- Bootstrap 5
+- JavaScript (ES6+)
+- SPA routing with React Router
+
+### Backend
+- Django 4.2
+- Django REST Framework
+- SQLite (relational data)
+- Node.js + Express
+- MongoDB + Mongoose ODM
+
+### AI / NLP
+- Flask microservice
+- NLTK
+- VADER Sentiment Analyzer
+
+### DevOps
+- Docker
+- Kubernetes
+- GitHub Actions
+
+---
+
+## Microservices Design
+
+### Dealership & Review Service (Node.js)
+- Handles dealership and review persistence
+- Communicates with MongoDB
+- Designed for independent scaling
+
+**Key Endpoints:**
+
+| Endpoint | Method | Description |
+|-------|-------|-------------|
+| `/fetchDealers` | GET | Retrieve all dealerships |
+| `/fetchDealer/:id` | GET | Retrieve dealership by ID |
+| `/fetchDealers/:state` | GET | Retrieve dealerships by state |
+| `/fetchReviews` | GET | Retrieve all reviews |
+| `/fetchReviews/dealer/:id` | GET | Retrieve reviews for a dealership |
+| `/insertReview` | POST | Submit a new review |
+
+---
+
+## Frontend (React SPA)
+
+### Implemented Pages
+- `/dealers` – Dealership listing with state filtering
+- `/dealer/:id` – Dealership details and reviews
+- `/postreview/:id` – Review submission (authenticated users only)
+
+### SPA Support with Django
+Django is configured to serve `index.html` for all client-side routes, enabling browser refresh and deep linking.
+
+---
+
+## Backend (Django)
+
+### Responsibilities
+- Authentication and authorization
+- Routing and template rendering
+- Proxy communication with microservices
+- Inventory management (car makes and models)
+- Admin panel and moderation tools
+
+---
+
+## Sentiment Analysis Service
+
+### Overview
+A dedicated Flask microservice performs sentiment analysis on user-submitted reviews.
+
+### Features
+- Uses VADER sentiment scoring
+- Classifies reviews as:
+  - Positive
+  - Neutral
+  - Negative
+- Returns sentiment metadata to Django for storage and display
+
+---
+
+## CI/CD Pipeline
+
+### Continuous Integration with GitHub Actions
+
+**Pipeline Objectives:**
+- Prevent syntax and style errors
+- Enforce coding standards
+- Enable safe collaboration
+
+**CI Jobs:**
+- Python linting using `flake8`
+- JavaScript linting using `JSHint`
+
+**Triggers:**
+- Pushes to `main`
+- Pull requests targeting `main`
+
+---
+
+## Containerization & Kubernetes Deployment
+
+### Containerization Strategy
+Each service is packaged as an independent Docker image:
+- Django backend
+- React frontend
+- Node.js dealership service
+- Flask sentiment analyzer
+- MongoDB
+
+### Kubernetes Capabilities Used
+- Service discovery
+- Load balancing
+- Horizontal scaling
+- Rolling updates
+- Self-healing deployments
+
+### Supported Platforms
+- IBM Kubernetes Service
+- AWS EKS
+- Google GKE
+- Azure AKS
+- On-prem Kubernetes clusters
+
+---
+
+## Security Considerations
+
+- Django CSRF protection
+- Secure authentication
+- Input validation
+- Role-based access control
+- Isolated services via containers
+
+---
+
+## Setup Instructions
+
+```bash
+git clone https://github.com/your-username/fullstack_developer_capstone.git
+cd fullstack_developer_capstone
+docker-compose up --build
 ````
 
 ---
 
-### Component Architecture
+## Future Improvements
 
-| Component          | Technology                  | Purpose                                      |
-| ------------------ | --------------------------- | -------------------------------------------- |
-| Frontend UI        | React.js + Bootstrap        | Responsive dealership browsing and review UI |
-| Web Framework      | Django 4.2                  | Main application server, routing, templates  |
-| Authentication     | Django Auth                 | User registration, login, session management |
-| Dealership Service | Node.js + Express + MongoDB | Dealership and review microservice           |
-| Django Models      | SQLite + Django ORM         | Car makes, models, and inventory             |
-| Sentiment Analysis | Flask + NLTK/VADER          | AI-powered review sentiment scoring          |
-| Database           | SQLite + MongoDB            | Dual-database architecture                   |
-| Proxy Services     | Django REST Helpers         | Microservice communication layer             |
-| Containerization   | Docker                      | Container-based deployment                   |
+* OAuth2 / SSO authentication
+* Advanced analytics dashboards
+* Caching with Redis
+* Full-text search for reviews
+* Monitoring with Prometheus & Grafana
+* Automated integration tests
 
 ---
 
-## Features
+## License
 
-### 🏢 Anonymous Users
-
-* Browse dealership listings across all U.S. states
-* Filter dealerships by state
-* View dealership details
-* Read customer reviews
-* Access **About Us** and **Contact Us** pages
-* Fully responsive design
-
----
-
-### 🔐 Registered Users
-
-Includes all anonymous features plus:
-
-* User registration and authentication
-* Submit reviews for dealerships
-* Review form with:
-
-  * Star ratings
-  * Purchase verification
-  * Vehicle details (make, model, year)
-  * Purchase date
-  * Text review with sentiment analysis
-* Personal dashboard for submitted reviews
-
----
-
-### ⚙️ Admin Users
-
-* Django Admin interface
-* CRUD operations for car makes and models
-* User management and moderation
-* Review validation and approval
-* Analytics dashboard
-* Sentiment analysis reports
-
----
-
-### 📊 Advanced Features
-
-* **Sentiment Analysis** (Positive / Neutral / Negative)
-* **Real-time updates** for newly submitted reviews
-* **Persistent data storage**
-* **Search and filter** by state
-* **Security features**:
-
-  * CSRF protection
-  * Secure authentication
-  * Input validation
-* **Microservices integration**
-
----
-
-## Tech Stack
-
-### Frontend
-
-* React 18
-* Bootstrap 5
-* CSS3
-* JavaScript (ES6+)
-
----
-
-### Backend
-
-* Django 4.2
-* Django REST Framework
-* SQLite
-* Node.js + Express
-* MongoDB
-* Mongoose ODM
-* Flask
-* NLTK / VADER
-
----
-
-### DevOps & Deployment
-
-* Docker
-* GitHub Actions (CI/CD)
-
----
-
-### AI / ML Integration
-
-* Natural Language Processing
-* VADER Sentiment Analysis
-* NLTK Library
-
----
-
-## Microservices Implementation
-
-### Node.js + MongoDB Dockerized Server
-
-The Django application communicates with MongoDB through a **containerized Node.js microservice**, enabling scalability and separation of concerns.
-
----
-
-### Implemented API Endpoints
-
-| Endpoint                   | Method | Description                | Response                |
-| -------------------------- | ------ | -------------------------- | ----------------------- |
-| `/fetchDealers`            | GET    | Fetch all dealerships      | Array of dealers        |
-| `/fetchDealer/:id`         | GET    | Fetch dealership by ID     | Dealer object           |
-| `/fetchDealers/:state`     | GET    | Fetch dealerships by state | Array of dealers        |
-| `/fetchReviews`            | GET    | Fetch all reviews          | Array of reviews        |
-| `/fetchReviews/dealer/:id` | GET    | Fetch reviews for a dealer | Array of reviews        |
-| `/insertReview`            | POST   | Insert a new review        | Success / error message |
+This project is licensed under the MIT License.
 
 ```
+
+If you want next:
+- I can **design the PNG architecture diagrams** (ready to drop into `docs/`)
+- Align this README exactly to **IBM Capstone grading rubrics**
+- Create a **short recruiter-facing README version**
+- Add **badges for CI/CD and Docker builds**
+
+Say which one.
 ```
