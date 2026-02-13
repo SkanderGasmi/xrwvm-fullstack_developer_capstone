@@ -1,0 +1,47 @@
+PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> djangoenv\Scripts\activate
+(djangoenv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> pip install -r requirements.txt
+Requirement already satisfied: requests in .\djangoenv\Lib\site-packages (from -r requirements.txt (line 1)) (2.32.5)
+Requirement already satisfied: Django in .\djangoenv\Lib\site-packages (from -r requirements.txt (line 2)) (6.0.2)
+Requirement already satisfied: Pillow in .\djangoenv\Lib\site-packages (from -r requirements.txt (line 3)) (12.1.0)
+Requirement already satisfied: gunicorn in .\djangoenv\Lib\site-packages (from -r requirements.txt (line 4)) (25.0.2)
+Requirement already satisfied: python-dotenv in .\djangoenv\Lib\site-packages (from -r requirements.txt (line 5)) (1.2.1)
+Requirement already satisfied: charset_normalizer<4,>=2 in .\djangoenv\Lib\site-packages (from requests->-r requirements.txt (line 1)) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in .\djangoenv\Lib\site-packages (from requests->-r requirements.txt (line 1)) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in .\djangoenv\Lib\site-packages (from requests->-r requirements.txt (line 1)) (2.6.3)
+Requirement already satisfied: certifi>=2017.4.17 in .\djangoenv\Lib\site-packages (from requests->-r requirements.txt (line 1)) (2026.1.4)
+Requirement already satisfied: asgiref>=3.9.1 in .\djangoenv\Lib\site-packages (from Django->-r requirements.txt (line 2)) (3.11.1)
+Requirement already satisfied: sqlparse>=0.5.0 in .\djangoenv\Lib\site-packages (from Django->-r requirements.txt (line 2)) (0.5.5)
+Requirement already satisfied: tzdata in .\djangoenv\Lib\site-packages (from Django->-r requirements.txt (line 2)) (2025.3)
+Requirement already satisfied: packaging in .\djangoenv\Lib\site-packages (from gunicorn->-r requirements.txt (line 4)) (26.0)
+(djangoenv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> python manage.py makemigrations
+>> python manage.py migrate
+System check identified some issues:
+
+WARNINGS:
+?: (staticfiles.W004) The directory 'C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server\frontend/build/static' in the STATICFILES_DIRS setting does not exist.
+No changes detected
+System check identified some issues:
+
+WARNINGS:
+?: (staticfiles.W004) The directory 'C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server\frontend/build/static' in the STATICFILES_DIRS setting does not exist.
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  No migrations to apply.
+(djangoenv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> python manage.py runserver
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified some issues:
+
+WARNINGS:
+?: (staticfiles.W004) The directory 'C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server\frontend/build/static' in the STATICFILES_DIRS setting does not exist.
+
+System check identified 1 issue (0 silenced).
+February 13, 2026 - 16:05:23
+Django version 6.0.2, using settings 'djangoproj.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.0/howto/deployment/

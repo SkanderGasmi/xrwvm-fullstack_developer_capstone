@@ -1,0 +1,3 @@
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> curl.exe -X GET "http://127.0.0.1:8000/djangoapp/logout"
+{"userName": ""}
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> 

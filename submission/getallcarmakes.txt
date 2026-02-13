@@ -1,0 +1,4 @@
+PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main> & "c:/Users/skand/OneDrive/Desktop/skander/coursera_projects/IBM full stack/xrwvm-fullstack_developer_capstone-main/xrwvm-fullstack_developer_capstone-main/.venv/Scripts/Activate.ps1"
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main> curl.exe -X GET "http://127.0.0.1:8000/djangoapp/get_cars"
+{"CarModels": [{"CarModel": "Camry", "CarMake": "Toyota"}]}
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main> 

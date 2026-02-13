@@ -1,0 +1,3 @@
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main> curl.exe -X GET "http://127.0.0.1:8000/djangoapp/dealer/15"
+{"status": 200, "dealer": {"_id": "698f3feb85dcd177cbe3b189", "id": 15, "city": "San Antonio", "state": "Texas", "address": "5057 Pankratz Hill", "zip": "78225", "lat": "29.3875", "long": "-98.5245", "short_name": "Tempsoft", "full_name": "Tempsoft Car Dealership", "__v": 0}}
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main> 

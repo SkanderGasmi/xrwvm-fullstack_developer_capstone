@@ -1,0 +1,4 @@
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> curl.exe -X POST "http://127.0.0.1:8000/djangoapp/login" -H "Content-Type: application/json" -d '{\"userName\": \"admin\", \"password\": \"admin\"}'   
+{"userName": "admin", "status": "Authenticated"}
+(.venv) PS C:\Users\skand\OneDrive\Desktop\skander\coursera_projects\IBM full stack\xrwvm-fullstack_developer_capstone-main\xrwvm-fullstack_developer_capstone-main\server> 
+
