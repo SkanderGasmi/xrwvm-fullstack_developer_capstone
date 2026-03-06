@@ -36,12 +36,12 @@
 
 ## Overview
 
-The **Best Cars Dealership Review Platform** is a full-stack, cloud-native web application designed for a national car dealership network operating across the United States.
+The **Best Cars Dealership Review Platform** is a full-stack, cloud-native web application designed for a national car dealership network operating across the United States of America.
 
 The platform enables customers to:
-- Discover dealerships by location
-- Read verified customer reviews
-- Submit structured feedback after a purchase
+- Discover dealerships by location.
+- Read verified customer reviews.
+- Submit structured feedback after a purchase.
 
 For dealerships and administrators, the system provides:
 - Centralized review management
